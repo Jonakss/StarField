@@ -3,48 +3,48 @@
 
 Star::Star(float r = 0){
   this->r = r;
-  this->lx = this->_x = this->x = rand()%800;
-  this->ly = this->_y = this->y = rand()%600;
+  this->lpos = this->_pos = this->pos = sf::Vector2f(rand()%this->HEIGTH, rand()%this->WIDTH);
   this->z = rand()%10;
+  a = 0;
+  this->center = sf::Vector2f(this->HEIGTH / 2, this->WIDTH/2);
 
   this->circle = sf::CircleShape(this->r, this->r+10);
+  this->circle.setPosition(this->pos);
 };
 
 void Star::draw(sf::RenderWindow& w){
-  w.draw(this->circle);
   w.draw(this->line, 2, sf::Lines);
+  w.draw(this->circle);
 };
 
 void Star::update(){
-  if(this->x < 400)
-    this->lx = this->x -= this->z*10;
-  else
-    this->lx = this->x += this->z*10;
-  if(this->y < 300)
-    this->ly = this->y -= this->z*10;
-  else
-    this->ly = this->y += this->z*10;
 
-  // if (this->x > 400 && this->y < 300){
-  //   this->lx += this->r * this->z;
-  //   this->ly -= this->r * this->z * this->z;
-  // }
-  // if (this->x < 400 && this->y > 300){
-  //   this->lx -= this->r * this->z;
-  //   this->ly += this->r * this->z;
-  // }
+  this->_pos = this->pos;
+  if(this->pos.x < this->center.x)
+    this->lpos.x = this->pos.x -= this->z*this->z;
+  else
+    this->lpos.x = this->pos.x += this->z*this->z;
+  if(this->pos.y < this->center.x)
+    this->lpos.y = this->pos.y -= this->z*this->z;
+  else
+    this->lpos.y = this->pos.y += this->z*this->z;
 
-  if(this->z > 50){
+
+  if(this->z > 10 || this->pos.y>this->HEIGTH || this->pos.x > this->WIDTH){
     this->z = 0;
-    this->lx = this->_x = this->x = rand()%800;
-    this->ly = this->_y = this->y = rand()%600;
-  }else{
-    this->z += 1;
+    this->lpos.x = this->_pos.x = this->pos.x = rand()%this->WIDTH;
+    this->lpos.y = this->_pos.y = this->pos.y = rand()%this->HEIGTH;
   }
+  else
+    this->z += 1;
 
-    this->line[0] = sf::Vertex(sf::Vector2f(this->_x, this->_y));
-    this->line[1] = sf::Vertex(sf::Vector2f(this->lx, this->ly));
+  this->line[0] = sf::Vertex(this->_pos);
+  this->line[1] = sf::Vertex(this->lpos);
 
-  this->circle.setPosition(this->x, this->y);
-  this->circle.setRadius(this->r * this->z);
+
+  this->circle.setPosition(this->pos);
+  this->circle.setRadius(this->r * this->z/10*this->z);
+
+  // this->center.x = sf::Mouse::getPosition().x;
+  // this->center.y = sf::Mouse::getPosition().y;
 };
