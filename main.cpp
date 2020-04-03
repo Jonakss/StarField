@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Star.hpp"
 #include <unistd.h>
+#include "consts.hpp"
 
 using star_ptr = std::unique_ptr<Star>;
 
@@ -9,7 +10,7 @@ int main(int argc, char *argv[]){
     const int stars = 50;
     std::array<std::unique_ptr<Star>, stars> s;
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGTH), "SFML window");
     for (int i = 0; i < stars; i++) {
       s[i] = star_ptr(new Star(1));
     }

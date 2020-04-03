@@ -1,12 +1,13 @@
 #include "Star.hpp"
 #include <math.h>
+#include "consts.hpp"
+
 
 Star::Star(float r = 0){
   this->r = r;
-  this->lpos = this->_pos = this->pos = sf::Vector2f(rand()%this->HEIGTH, rand()%this->WIDTH);
+  this->lpos = this->_pos = this->pos = sf::Vector2f(rand()%HEIGTH, rand()%WIDTH);
   this->z = rand()%10;
-  a = 0;
-  this->center = sf::Vector2f(this->HEIGTH / 2, this->WIDTH/2);
+  this->center = sf::Vector2f(HEIGTH / 2, WIDTH/2);
 
   this->circle = sf::CircleShape(this->r, this->r+10);
   this->circle.setPosition(this->pos);
@@ -30,10 +31,10 @@ void Star::update(){
     this->lpos.y = this->pos.y += this->z*this->z;
 
 
-  if(this->z > 10 || this->pos.y>this->HEIGTH || this->pos.x > this->WIDTH){
+  if(this->z > 10 || this->pos.y>HEIGTH || this->pos.x > WIDTH){
     this->z = 0;
-    this->lpos.x = this->_pos.x = this->pos.x = rand()%this->WIDTH;
-    this->lpos.y = this->_pos.y = this->pos.y = rand()%this->HEIGTH;
+    this->lpos.x = this->_pos.x = this->pos.x = rand()%WIDTH;
+    this->lpos.y = this->_pos.y = this->pos.y = rand()%HEIGTH;
   }
   else
     this->z += 1;
@@ -44,7 +45,4 @@ void Star::update(){
 
   this->circle.setPosition(this->pos);
   this->circle.setRadius(this->r * this->z/10*this->z);
-
-  // this->center.x = sf::Mouse::getPosition().x;
-  // this->center.y = sf::Mouse::getPosition().y;
 };
